@@ -1,0 +1,100 @@
+﻿
+@model Consultorio.Models.Medico
+
+@{
+    ViewBag.Title = "CONSULTORIO |";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<link href="~/Content/styleLogin.css" rel="stylesheet" />
+
+<div class="container" style="padding-top: 10rem;">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-login">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="#" class="active" id="login-form-link">Iniciar sesión</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="#" id="register-form-link">Registrarme</a>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <div class="panel-body">
+
+                    @*FORMULARIO PARA INICIAR SESION*@
+                    @using (Html.BeginForm("FrmLogin", "Home", FormMethod.Post, new { @class = "login-form", @enctype = "multipart/form-data", id = "login-form", style = "display: block;" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="form-group row">
+                            <div class="col-lg-12">
+                                @Html.LabelFor(model => model.EMAIL)
+                                @Html.EditorFor(model => model.EMAIL, new { htmlAttributes = new { @class = "form-control", rows = "1", id = "EMAIL_LOGIN" } })
+                                @Html.ValidationMessageFor(model => model.EMAIL, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-12">
+                                @Html.LabelFor(model => model.PASSWORD)<br />
+                                @Html.PasswordFor(model => model.PASSWORD, new { htmlAttributes = new { @class = "form-control", rows = "1", id = "PASSW_LOGIN" } })<br />
+                                @Html.ValidationMessageFor(model => model.PASSWORD, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-6 col-sm-offset-3" style="padding-top: 2rem;">
+                                <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Entrar">
+                            </div>
+                        </div>
+                    }
+
+                    <div class="col-lg-12">
+                        @*FORMULARIO PARA REGISTRAR UN NUEVO USUARIO*@
+                        @using (Html.BeginForm("FrmRegister", "Home", FormMethod.Post, new { @class = "login-form", @enctype = "multipart/form-data", id = "register-form", style = "display: none;" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    @Html.LabelFor(model => model.EMAIL)
+                                    @Html.EditorFor(model => model.EMAIL, new { htmlAttributes = new { @class = "form-control", rows = "1", id = "EMAIL_REGISTER" } })
+                                    @Html.ValidationMessageFor(model => model.EMAIL, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-lg-12">
+                                    @Html.LabelFor(model => model.PASSWORD)<br />
+                                    @Html.PasswordFor(model => model.PASSWORD, new { htmlAttributes = new { @class = "form-control", rows = "1", id = "PASSW_REGISTER" } })<br />
+                                    @Html.ValidationMessageFor(model => model.PASSWORD, "", new { @class = "text-danger" })
+                                </div><div class="col-lg-12">
+                                    @Html.LabelFor(model => model.PASSWORDCONFIRM)<br />
+                                    @Html.PasswordFor(model => model.PASSWORDCONFIRM, new { htmlAttributes = new { @class = "form-control", rows = "1", id = "PASSW_CONFIRM_LOGIN" } })<br />
+                                    @Html.ValidationMessageFor(model => model.PASSWORDCONFIRM, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-lg-12">
+                                    @Html.LabelFor(model => model.NOMBRE)
+                                    @Html.EditorFor(model => model.NOMBRE, new { htmlAttributes = new { @class = "form-control", rows = "1" } })
+                                    @Html.ValidationMessageFor(model => model.NOMBRE, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-lg-12">
+                                    @Html.LabelFor(model => model.APPATERNO)
+                                    @Html.EditorFor(model => model.APPATERNO, new { htmlAttributes = new { @class = "form-control", rows = "1" } })
+                                    @Html.ValidationMessageFor(model => model.APPATERNO, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-lg-12">
+                                    @Html.LabelFor(model => model.APMATERNO)
+                                    @Html.EditorFor(model => model.APMATERNO, new { htmlAttributes = new { @class = "form-control", rows = "1" } })
+                                    @Html.ValidationMessageFor(model => model.APMATERNO, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="col-sm-6 col-sm-offset-3"  style="padding-top: 2rem;">
+                                    <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Registrarme">
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/Consultorio/login.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

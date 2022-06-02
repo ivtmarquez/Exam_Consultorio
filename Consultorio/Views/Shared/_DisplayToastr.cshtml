@@ -1,0 +1,38 @@
+﻿
+<script>
+    $(document).ready(function () {
+        displayToastr('@Consultorio.Models.ManageViewModels.ToastNotification.Message', @Consultorio.Models.ManageViewModels.ToastNotification.Status, '@Consultorio.Models.ManageViewModels.ToastNotification.Title');
+    });
+
+    function displayToastr(prMessage, prType, prTitle) {
+        if (prType == 1)
+        {
+            toastr.success(prMessage, prTitle);
+        }
+        else if(prType == 0)
+        {
+            toastr.error(prMessage, prTitle);
+        }
+        else if(prType == 2)
+        {
+            toastr.warning(prMessage, prTitle);
+        }
+        @{Consultorio.Models.ManageViewModels.ToastNotification.ResetData();}
+    }
+
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "onclick": null,
+        "showDuration": "400",
+        "hideDuration": "1000",
+        "timeOut": "2000",
+        "extendedTimeOut": "1000",
+        "showEasing": "linear",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+</script>

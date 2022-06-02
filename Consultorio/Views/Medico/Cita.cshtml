@@ -1,0 +1,102 @@
+﻿@model Consultorio.Models.Cita
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    @*<div data-provide="calendar"></div>*@
+    <div class="col-lg-9">
+        <h3>Citas agendadas</h3>
+        <div class="col-lg-12">
+            <table id="dtCita" class="table table-striped table-hover table-condensed white-bg" style="width: 100%">
+                <thead>
+                    <tr>
+                        <th> #</th>
+                        <th> Medico</th>
+                        <th> Paciente</th>
+                        <th> Dia</th>
+                        <th> Hora</th>
+                        <th> Estudios</th>
+                        <th> Observaciones </th>
+                        <th> Expediente </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var cita in ViewBag.Citas)
+                    {
+                        string ruta = "/EXPEDIENTES/" + cita.EXPEDIENTE;
+                    <tr>
+                        <td>@cita.IDCITA</td>
+                        <td>@cita.MEDICO</td>
+                        <td>@cita.PACIENTE</td>
+                        <td>@cita.DIACITA</td>
+                        <td>@cita.HORACITA</td>
+                        <td>@cita.ESTUDIOS</td>
+                        <td>@cita.OBSERVACIONES</td>
+                        <td>
+                            <a href="@ruta" target="_blank"> Ver archivo</a> 
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <h3>Nueva cita</h3>
+        <div class="col-lg-12">
+            @using (Html.BeginForm("FrmNewCita", "Medico", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        @Html.LabelFor(model => model.MEDICO)
+                        @Html.DropDownListFor(model => model.MEDICO, new SelectList(ViewBag.listMedico, "Value", "Text"), "-- SELECCIONAR --", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.MEDICO, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="col-lg-12">
+                        @Html.LabelFor(model => model.PACIENTE)
+                        @Html.DropDownListFor(model => model.PACIENTE, new SelectList(ViewBag.listPacientes, "Value", "Text"), "-- SELECCIONAR --", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.PACIENTE, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="col-lg-12">
+                        @Html.LabelFor(model => model.DIACITA)
+                        @Html.EditorFor(model => model.DIACITA, new { htmlAttributes = new { @class = "form-control", rows = "1" , type= "date"} })
+                        @Html.ValidationMessageFor(model => model.DIACITA, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-lg-12">
+                        @Html.LabelFor(model => model.HORACITA)
+                        @Html.EditorFor(model => model.HORACITA, new { htmlAttributes = new { @class = "form-control", rows = "1", type="time", step = "00:30" } })
+                        @Html.ValidationMessageFor(model => model.HORACITA, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-lg-12">
+                        @Html.LabelFor(model => model.EXPEDIENTE)
+                        @Html.EditorFor(model => model.EXPEDIENTE, new { htmlAttributes = new { @class = "form-control", rows = "1", type="file" } })
+                        @Html.ValidationMessageFor(model => model.EXPEDIENTE, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-lg-12">
+                        @Html.LabelFor(model => model.ESTUDIOS)
+                        @Html.DropDownListFor(model => model.ESTUDIOS, new SelectList(ViewBag.listEstudios, "Value", "Text"), "-- SELECCIONAR --", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ESTUDIOS, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-lg-12">
+                        @Html.LabelFor(model => model.OBSERVACIONES)
+                        @Html.TextAreaFor(model => model.OBSERVACIONES, new { @class = "form-control areaWidth text-uppercase", rows = "3", cols = "150", @style = "resize: none;" })
+                        @Html.ValidationMessageFor(model => model.OBSERVACIONES, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-sm-6 col-sm-offset-3" style="padding-top: 2rem;">
+                        <button type="submit" class="btn btn-primary" data-content="tooltip" data-placement="left" title="Guardar" id="btnSave">
+                            <span class="glyphicon glyphicon-ok-sign"></span> Guardar
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/Consultorio/paciente.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

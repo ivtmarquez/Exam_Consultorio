@@ -1,0 +1,172 @@
+﻿@model Consultorio.Models.Paciente
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h3>Pacientes</h3>
+<div class="container">
+    <div class="body">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="tabs-container">
+                    <div class="tab-content">
+                        <div id="tab-1" class="tab-pane active">
+                            <div class="panel-body" style="padding-bottom: 1px">
+                                @using (Html.BeginForm("FrmNewPaciente", "Paciente", FormMethod.Post, new { id = "FrmNewPaciente" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <div class="form-horizontal" id="data_1">
+                                        <div class="form-group row">
+                                            <div class="col-lg-12">
+                                                <div class="col-lg-12">
+                                                    <button id="btnAdd" data-toggle="collapse" href="#collapseAdd" aria-expanded="false" aria-controls="collapseAdd"
+                                                            type="button" class="btn btn-primary" data-content="tooltip" data-placement="left" title="Agregar">
+                                                        &nbsp; <i class="glyphicon glyphicon-plus" aria-hidden="true"></i> &nbsp;Nuevo Paciente
+                                                    </button>
+                                                    <button id="btnCancel" data-toggle="collapse" href="#collapseAdd" aria-expanded="false" aria-controls="collapseAdd"
+                                                            type="button" class="btn btn-primary hidden" data-content="tooltip" data-placement="left" title="Cancelar">
+                                                        &nbsp; <i class="glyphicon glyphicon-remove" aria-hidden="true"></i> &nbsp;
+                                                    </button>
+                                                </div>
+                                                <div class="col-lg-12 collapse" id="collapseAdd">
+                                                    <div class="form-group">
+                                                        <div class="row">
+                                                            <br />
+                                                            <div class="col-12">
+                                                                @*LLAMAR A LA API PARA RELLENAR DATOS*@
+                                                                <button type="button" class="btn btn-primaryGray" id="boton" onclick="API();">
+                                                                    <span class="fa fa-floppy-o"></span> AutoLlenar
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-3">
+                                                                @Html.LabelFor(model => model.NOMBRE)
+                                                                @Html.TextBoxFor(model => model.NOMBRE, null, new { @class = "form-control", id = "PAC_NOMBRE" })
+                                                                @Html.ValidationMessageFor(model => model.NOMBRE, "", new { @class = "text-danger" })
+
+                                                            </div>
+                                                            <div class="col-lg-3">
+                                                                @Html.LabelFor(model => model.APPATERNO)
+                                                                @Html.TextBoxFor(model => model.APPATERNO, null, new { @class = "form-control", id = "PAC_APPATERNO" })
+                                                                @Html.ValidationMessageFor(model => model.APPATERNO, "", new { @class = "text-danger" })
+
+                                                            </div>
+                                                            <div class="col-lg-3">
+                                                                @Html.LabelFor(model => model.APMATERNO)
+                                                                @Html.TextBoxFor(model => model.APMATERNO, null, new { @class = "form-control", id = "PAC_APMATERNO" })
+                                                                @Html.ValidationMessageFor(model => model.APMATERNO, "", new { @class = "text-danger" })
+
+                                                            </div>
+                                                            <div class="col-lg-3">
+                                                                @Html.LabelFor(model => model.FECHANAC)
+                                                                @Html.TextBoxFor(model => model.FECHANAC, null, new { @class = "form-control", type = "date", id = "PAC_FECHANAC" })
+                                                                @Html.ValidationMessageFor(model => model.FECHANAC, "", new { @class = "text-danger" })
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+
+                                                            <div class="col-lg-3">
+                                                                @Html.LabelFor(model => model.EMAIL)
+                                                                @Html.TextBoxFor(model => model.EMAIL, null, new { @class = "form-control", id = "PAC_EMAIL" })
+                                                                @Html.ValidationMessageFor(model => model.EMAIL, "", new { @class = "text-danger" })
+
+                                                            </div>
+                                                            <div class="col-lg-3">
+                                                                @Html.LabelFor(model => model.TELEFONO)
+                                                                @Html.TextBoxFor(model => model.TELEFONO, null, new { @class = "form-control", id = "PAC_TELEFONO" })
+                                                                @Html.ValidationMessageFor(model => model.TELEFONO, "", new { @class = "text-danger" })
+
+                                                            </div>
+                                                            <div class="col-lg-3">
+                                                                @Html.LabelFor(model => model.LOCALIDAD)
+                                                                @Html.TextBoxFor(model => model.LOCALIDAD, null, new { @class = "form-control", id = "PAC_LOCALIDAD" })
+                                                                @Html.ValidationMessageFor(model => model.LOCALIDAD, "", new { @class = "text-danger" })
+
+                                                            </div>
+                                                            <div class="col-lg-3">
+                                                                @Html.LabelFor(model => model.MEDIO)
+                                                                @Html.DropDownListFor(model => model.MEDIO, new SelectList(ViewBag.ltsMedios, "Value", "Text"), new { @class = "form-control" })
+                                                                @Html.ValidationMessageFor(model => model.MEDIO, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <br />
+                                                                <button type="submit" class="btn btn-primary" data-content="tooltip" data-placement="left" title="Guardar" id="btnSave">
+                                                                    <span class="glyphicon glyphicon-ok-sign"></span> Guardar
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <table id="dtPaciente" class="table table-striped table-hover table-condensed white-bg" style="width: 100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th> Nombre</th>
+                                                                <th> Fecha Nacimiento</th>
+                                                                <th> Edad</th>
+                                                                <th> Localidad</th>
+                                                                <th> Teléfono</th>
+                                                                <th> Email</th>
+                                                                <th> Medio</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var pac in ViewBag.Pacientes)
+                                                            {
+                                                                <tr>
+                                                                    <td>@pac.NOMBRE</td>
+                                                                    <td>@pac.FECHANAC</td>
+                                                                    <td>@pac.EDAD</td>
+                                                                    <td>@pac.LOCALIDAD</td>
+                                                                    <td>@pac.TELEFONO</td>
+                                                                    <td>@pac.EMAIL</td>
+                                                                    <td>@pac.MEDIO</td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="~/Scripts/Consultorio/paciente.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+<script>
+    /*FUNCION QUE EXTRAE LOS DATOS DE LA API Y LOS REGISTRA EN EL FORMULARIO*/
+    function API() {
+        $.ajax({
+            url: 'https://randomuser.me/api/',
+            dataType: 'json',
+            success: function (data) {
+                $('#PAC_NOMBRE').val(data.results[0].name.title);
+                $('#PAC_APPATERNO').val(data.results[0].name.first);
+                $('#PAC_APMATERNO').val(data.results[0].name.last);
+                $('#PAC_FECHANAC').val((data.results[0].dob.date).substring(0,10));
+                $('#PAC_EMAIL').val(data.results[0].email);
+                $('#PAC_TELEFONO').val(data.results[0].cell);
+                $('#PAC_LOCALIDAD').val(data.results[0].location.city);
+            }
+        });
+    }
+</script>
